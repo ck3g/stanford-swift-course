@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
 
     var userInTheMiddleOfTypingANumber = false
+    var userInTheMiddleOfTypingAPrecision = false
 
     @IBAction func appendDigit(sender: UIButton) {
         var digit = sender.currentTitle!
@@ -55,6 +56,7 @@ class ViewController: UIViewController {
 
     @IBAction func enter() {
         userInTheMiddleOfTypingANumber = false
+        userInTheMiddleOfTypingAPrecision = false
         operandStack.append(displayValue)
         println("operandStack = \(operandStack)")
     }
@@ -69,6 +71,12 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func floatDelimeter() {
+        if !userInTheMiddleOfTypingAPrecision {
+            display.text = display.text! + "."
+            userInTheMiddleOfTypingAPrecision = true
+        }
+    }
 
 }
 
