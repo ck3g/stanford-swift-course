@@ -24,6 +24,13 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func clearAll() {
+        userInTheMiddleOfTypingANumber = false
+        userInTheMiddleOfTypingAPrecision = false
+        display.text = "0"
+        operandStack = []
+    }
+
     @IBAction func appendPi() {
         userInTheMiddleOfTypingANumber = false
         display.text = "\(M_PI)"
