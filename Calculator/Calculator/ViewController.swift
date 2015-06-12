@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var history: UILabel!
 
     var userInTheMiddleOfTypingANumber = false
     var userInTheMiddleOfTypingAPrecision = false
@@ -23,12 +24,17 @@ class ViewController: UIViewController {
             userInTheMiddleOfTypingANumber = true
         }
     }
+    @IBAction func trackActivity(sender: UIButton) {
+        var digit = sender.currentTitle!
+        history.text = history.text! + digit
+    }
 
     @IBAction func clearAll() {
         userInTheMiddleOfTypingANumber = false
         userInTheMiddleOfTypingAPrecision = false
         display.text = "0"
         operandStack = []
+        history.text = ""
     }
 
     @IBAction func appendPi() {
