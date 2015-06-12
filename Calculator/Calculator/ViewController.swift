@@ -24,6 +24,12 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func appendPi() {
+        userInTheMiddleOfTypingANumber = false
+        display.text = "\(M_PI)"
+        enter()
+    }
+
     @IBAction func operate(sender: UIButton) {
         let operation = sender.currentTitle!
 
