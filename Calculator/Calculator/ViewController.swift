@@ -36,15 +36,11 @@ class ViewController: UIViewController {
         case "−": performOperation() { $1 - $0 }
         case "×": performOperation() { $0 * $1 }
         case "÷": performOperation() { $1 / $0 }
+        case "√": performOperation() { sqrt($0) }
+        case "Sin": performOperation() { sin($0) }
+        case "Cos": performOperation() { cos($0) }
         default:
             break
-        }
-    }
-
-    func performOperation(operation: (Double, Double) -> Double) {
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
         }
     }
 
@@ -75,6 +71,20 @@ class ViewController: UIViewController {
         if !userInTheMiddleOfTypingAPrecision {
             display.text = display.text! + "."
             userInTheMiddleOfTypingAPrecision = true
+        }
+    }
+
+    private func performOperation(operation: Double -> Double) {
+        if operandStack.count >= 1 {
+            displayValue = operation(operandStack.removeLast())
+            enter()
+        }
+    }
+
+    private func performOperation(operation: (Double, Double) -> Double) {
+        if operandStack.count >= 2 {
+            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            enter()
         }
     }
 
