@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     var userInTheMiddleOfTypingANumber = false
     var userInTheMiddleOfTypingAPrecision = false
 
+    var brain = CalculatorBrain()
+
     @IBAction func appendDigit(sender: UIButton) {
         var digit = sender.currentTitle!
         if userInTheMiddleOfTypingANumber {
@@ -44,22 +46,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
-
         if userInTheMiddleOfTypingANumber {
             enter()
         }
 
-        switch operation {
-        case "+": performOperation() { $0 + $1 }
-        case "−": performOperation() { $1 - $0 }
-        case "×": performOperation() { $0 * $1 }
-        case "÷": performOperation() { $1 / $0 }
-        case "√": performOperation() { sqrt($0) }
-        case "Sin": performOperation() { sin($0) }
-        case "Cos": performOperation() { cos($0) }
-        default:
-            break
+        if let operation = sender.currentTitle {
+            if let result = brain.performOperation(operation) {
+                displayValue = result
+            } else {
+                displayValue = 0
+            }
         }
     }
 
@@ -72,8 +68,11 @@ class ViewController: UIViewController {
     @IBAction func enter() {
         userInTheMiddleOfTypingANumber = false
         userInTheMiddleOfTypingAPrecision = false
-        operandStack.append(displayValue)
-        println("operandStack = \(operandStack)")
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+        } else {
+            displayValue = 0
+        }
     }
 
     var displayValue: Double {
@@ -90,20 +89,6 @@ class ViewController: UIViewController {
         if !userInTheMiddleOfTypingAPrecision {
             display.text = display.text! + "."
             userInTheMiddleOfTypingAPrecision = true
-        }
-    }
-
-    private func performOperation(operation: Double -> Double) {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast())
-            enter()
-        }
-    }
-
-    private func performOperation(operation: (Double, Double) -> Double) {
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
         }
     }
 
