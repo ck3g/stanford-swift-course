@@ -51,11 +51,7 @@ class ViewController: UIViewController {
         }
 
         if let operation = sender.currentTitle {
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            } else {
-                displayValue = 0
-            }
+            displayValue = brain.performOperation(operation)
         }
     }
 
@@ -68,19 +64,19 @@ class ViewController: UIViewController {
     @IBAction func enter() {
         userInTheMiddleOfTypingANumber = false
         userInTheMiddleOfTypingAPrecision = false
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-        } else {
-            displayValue = 0
-        }
+        displayValue = brain.pushOperand(displayValue!)
     }
 
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         set {
-            display.text = "\(newValue)"
+            if let newDisplayValue = newValue {
+                display.text = "\(newDisplayValue)"
+            } else {
+                display.text = "0"
+            }
             userInTheMiddleOfTypingANumber = false
         }
     }
